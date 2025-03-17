@@ -16,6 +16,7 @@ link_directories(${RAYLIB_DIR})
 
 # Add the executable using the dynamically set project name
 add_executable(Defend_The_Spire main.c
+        grid_map.h
 
 )
 

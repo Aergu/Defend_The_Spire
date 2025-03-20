@@ -1,84 +1,92 @@
-//
-// Created by media on 3/17/2025.
-//
-
-#ifndef GRID_MAP_H
-#define GRID_MAP_H
 #include <raylib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 
-#define MAX_NODES 100
+#define GRID_SIZE 10
+#define TILE_SIZE 50
+#define SCREEN_WIDTH (GRID_SIZE * TILE_SIZE)
+#define SCREEN_HEIGHT (GRID_SIZE * TILE_SIZE)
 
-typedef struct {
-    int x, y;
-} Node;
+// Directions for BFS (right, down, left, up)
+int dx[4] = {1, 0, -1, 0};
+int dy[4] = {0, 1, 0, -1};
 
-typedef struct {
-    int items[MAX_NODES];
-    int front, rear;
-} Queue;
+// Grid representation (0 = walkable, 1 = obstacle)
+int grid[GRID_SIZE][GRID_SIZE] = {
+    {0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+    {0, 1, 1, 0, 1, 0, 1, 1, 1, 0},
+    {0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
+    {1, 1, 0, 1, 1, 0, 1, 0, 1, 0},
+    {0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
+    {0, 1, 0, 1, 0, 1, 1, 0, 1, 0},
+    {0, 1, 0, 0, 0, 0, 1, 0, 0, 0},
+    {0, 1, 1, 1, 1, 0, 1, 1, 1, 0},
+    {0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+    {0, 1, 1, 0, 1, 1, 1, 1, 1, 0}
+};
 
-typedef struct {
-    int neighbors [MAX_NODES][MAX_NODES];
-    int size [MAX_NODES];
-} Graph;
+// BFS Distance Map
+int distanceMap[GRID_SIZE][GRID_SIZE];
 
-void initQueue(Queue* q) {
-    q->front = 0;
-    q->rear = -1;
-}
+// Enemy Position
+int enemyX = 0, enemyY = 0;
 
-bool isEmpty(Queue* q) {
-    return q->rear < q->front;
-}
+// BFS to compute shortest path from goal (9,9)
+void bfs(int goalX, int goalY) {
+    int queue[GRID_SIZE * GRID_SIZE][2];
+    int front = 0, rear = 0;
 
-void enqueue (Queue *q, int value) {
-    if (q->rear < MAX_NODES - 1) {
-        q->items [++q->rear] = value;
+    // Initialize distance map
+    for (int i = 0; i < GRID_SIZE; i++) {
+        for (int j = 0; j < GRID_SIZE; j++) {
+            distanceMap[i][j] = -1;
+        }
     }
-}
 
-int dequeue (Queue *q) {
-    if (!isEmpty(q)) {
-        return q -> items[q->front++];
-    }
-    return -1;
-}
+    // Start BFS from goal
+    queue[rear][0] = goalX;
+    queue[rear][1] = goalY;
+    rear++;
+    distanceMap[goalX][goalY] = 0;
 
-void addEdge(Graph *graph, int u, int v) {
-    graph->neighbors [u][graph->size[u]++] = v;
-    graph->neighbors [v][graph->size[v]++] = u;
-}
+    while (front < rear) {
+        int x = queue[front][0];
+        int y = queue[front][1];
+        front++;
 
-bool bfsStarted = false;
-bool reached [MAX_NODES] = {false};
-int bfsOrder [MAX_NODES];
-int orderIndex = 0;
-Queue frontier;
+        for (int d = 0; d < 4; d++) {
+            int nx = x + dx[d];
+            int ny = y + dy[d];
 
-void bfs (Graph *graph, int start) {
-    Queue frontier;
-    initQueue(&frontier);
-    enqueue(&frontier, start);
-    reached[start] = true;
-    bfsOrder[orderIndex++] = start;
-}
-
-void bfsStep (Graph * graph) {
-    if (!isEmpty(&frontier)) {
-        int current = dequeue(&frontier);
-        for (int i = 0; i < graph->size[current]; i++) {
-            int next = graph->neighbors [current][i];
-            if (reached[next]) {
-                enqueue(&frontier, next);
-                reached[next] = true;
-                bfsOrder[orderIndex++] = next;
+            if (nx >= 0 && nx < GRID_SIZE && ny >= 0 && ny < GRID_SIZE &&
+                grid[nx][ny] == 0 && distanceMap[nx][ny] == -1) {
+                queue[rear][0] = nx;
+                queue[rear][1] = ny;
+                rear++;
+                distanceMap[nx][ny] = distanceMap[x][y] + 1;
             }
         }
     }
 }
 
+// Enemy movement function
+void moveEnemy() {
+    int bestX = enemyX, bestY = enemyY;
+    int minDist = distanceMap[enemyX][enemyY];
 
+    for (int d = 0; d < 4; d++) {
+        int nx = enemyX + dx[d];
+        int ny = enemyY + dy[d];
 
-
-#endif //GRID_MAP_H
+        if (nx >= 0 && nx < GRID_SIZE && ny >= 0 && ny < GRID_SIZE && distanceMap[nx][ny] != -1) {
+            if (distanceMap[nx][ny] < minDist) {
+                minDist = distanceMap[nx][ny];
+                bestX = nx;
+                bestY = ny;
+            }
+        }
+    }
+    enemyX = bestX;
+    enemyY = bestY;
+}

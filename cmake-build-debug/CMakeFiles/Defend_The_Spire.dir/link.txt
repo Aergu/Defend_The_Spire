@@ -1,0 +1,3 @@
+"D:\JetBrains\CLion 2024.3.2\bin\cmake\win\x64\bin\cmake.exe" -E rm -f CMakeFiles\Defend_The_Spire.dir/objects.a
+D:\JETBRA~1\CLION2~1.2\bin\mingw\bin\ar.exe qc CMakeFiles\Defend_The_Spire.dir/objects.a @CMakeFiles\Defend_The_Spire.dir\objects1.rsp
+D:\JETBRA~1\CLION2~1.2\bin\mingw\bin\gcc.exe -g -Wl,--whole-archive CMakeFiles\Defend_The_Spire.dir/objects.a -Wl,--no-whole-archive -o Defend_The_Spire.exe -Wl,--out-implib,libDefend_The_Spire.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Defend_The_Spire.dir\linkLibs.rsp

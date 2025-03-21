@@ -1,4 +1,4 @@
 "D:\JetBrains\CLion 2024.3.2\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "MinGW Makefiles" -S C:\Users\LENOVO-2022\Documents\GitHub\Defend_The_Spire -B C:\Users\LENOVO-2022\Documents\GitHub\Defend_The_Spire\cmake-build-debug
--- Configuring done (0.2s)
--- Generating done (0.1s)
+-- Configuring done (0.1s)
+-- Generating done (0.0s)
 -- Build files have been written to: C:/Users/LENOVO-2022/Documents/GitHub/Defend_The_Spire/cmake-build-debug

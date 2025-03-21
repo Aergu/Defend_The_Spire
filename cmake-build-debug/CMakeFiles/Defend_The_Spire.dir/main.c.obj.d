@@ -27,4 +27,5 @@ CMakeFiles/Defend_The_Spire.dir/main.c.obj: \
  D:/JetBrains/CLion\ 2024.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mm_malloc.h \
  D:/JetBrains/CLion\ 2024.3.2/bin/mingw/x86_64-w64-mingw32/include/errno.h \
  D:/JetBrains/CLion\ 2024.3.2/bin/mingw/x86_64-w64-mingw32/include/math.h \
- C:\Users\LENOVO-2022\Documents\GitHub\Defend_The_Spire\grid_map.h
+ C:\Users\LENOVO-2022\Documents\GitHub\Defend_The_Spire\grid_map.h \
+ C:\Users\LENOVO-2022\Documents\GitHub\Defend_The_Spire\towers.h

@@ -3,16 +3,19 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define GRID_SIZE 10
-#define TILE_SIZE 50
+#define GRID_SIZE 15
+#define TILE_SIZE 60
 #define SCREEN_WIDTH (GRID_SIZE * TILE_SIZE)
 #define SCREEN_HEIGHT (GRID_SIZE * TILE_SIZE)
 
-// Directions for BFS (right, down, left, up)
+#define GOAL_X (GRID_SIZE - 1)
+#define GOAL_Y (GRID_SIZE - 1)
+
+
 int dx[4] = {1, 0, -1, 0};
 int dy[4] = {0, 1, 0, -1};
 
-// Grid representation (0 = walkable, 1 = obstacle)
+
 int grid[GRID_SIZE][GRID_SIZE] = {
     {0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
     {0, 1, 1, 0, 1, 0, 1, 1, 1, 0},
@@ -26,25 +29,23 @@ int grid[GRID_SIZE][GRID_SIZE] = {
     {0, 1, 1, 0, 1, 1, 1, 1, 1, 0}
 };
 
-// BFS Distance Map
+
 int distanceMap[GRID_SIZE][GRID_SIZE];
 
-// Enemy Position
 int enemyX = 0, enemyY = 0;
 
-// BFS to compute shortest path from goal (9,9)
+bool GameOver = false;
+
 void bfs(int goalX, int goalY) {
     int queue[GRID_SIZE * GRID_SIZE][2];
     int front = 0, rear = 0;
 
-    // Initialize distance map
     for (int i = 0; i < GRID_SIZE; i++) {
         for (int j = 0; j < GRID_SIZE; j++) {
             distanceMap[i][j] = -1;
         }
     }
 
-    // Start BFS from goal
     queue[rear][0] = goalX;
     queue[rear][1] = goalY;
     rear++;
@@ -70,8 +71,9 @@ void bfs(int goalX, int goalY) {
     }
 }
 
-// Enemy movement function
 void moveEnemy() {
+        if (GameOver) return;
+
     int bestX = enemyX, bestY = enemyY;
     int minDist = distanceMap[enemyX][enemyY];
 
@@ -89,4 +91,8 @@ void moveEnemy() {
     }
     enemyX = bestX;
     enemyY = bestY;
+
+    if (enemyX == GOAL_X && enemyY == GOAL_Y) {
+        GameOver = true;
+    }
 }

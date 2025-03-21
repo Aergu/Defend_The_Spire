@@ -4,6 +4,7 @@
 CMakeFiles/Defend_The_Spire.dir/main.c.obj: C:/Users/LENOVO-2022/Documents/GitHub/Defend_The_Spire/main.c \
   C:/raylib/raylib/src/raylib.h \
   C:/Users/LENOVO-2022/Documents/GitHub/Defend_The_Spire/grid_map.h \
+  C:/Users/LENOVO-2022/Documents/GitHub/Defend_The_Spire/towers.h \
   D:/JetBrains/CLion\ 2024.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/limits.h \
   D:/JetBrains/CLion\ 2024.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mm_malloc.h \
   D:/JetBrains/CLion\ 2024.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/stdarg.h \
@@ -50,11 +51,13 @@ D:/JetBrains/CLion\ 2024.3.2/bin/mingw/x86_64-w64-mingw32/include/_mingw_off_t.h
 
 C:/Users/LENOVO-2022/Documents/GitHub/Defend_The_Spire/grid_map.h:
 
+D:/JetBrains/CLion\ 2024.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/stdbool.h:
+
+C:/Users/LENOVO-2022/Documents/GitHub/Defend_The_Spire/towers.h:
+
 D:/JetBrains/CLion\ 2024.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/limits.h:
 
 D:/JetBrains/CLion\ 2024.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/syslimits.h:
-
-D:/JetBrains/CLion\ 2024.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/stdbool.h:
 
 D:/JetBrains/CLion\ 2024.3.2/bin/mingw/x86_64-w64-mingw32/include/_mingw_secapi.h:
 

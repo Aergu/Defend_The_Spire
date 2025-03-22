@@ -39,16 +39,24 @@ void shootBullets() {
 void updateBullets() {
     for (int i = 0; i < 10; i++) {
         if (bullets[i].active) {
-            if (bullets[i].x < enemyY * TILE_SIZE + TILE_SIZE / 2) bullets[i].x += BULLET_SPEED;
-            if (bullets[i].x > enemyY * TILE_SIZE + TILE_SIZE / 2) bullets[i].x -= BULLET_SPEED;
-            if (bullets[i].y < enemyX * TILE_SIZE + TILE_SIZE / 2) bullets[i].y += BULLET_SPEED;
-            if (bullets[i].y > enemyX * TILE_SIZE + TILE_SIZE / 2) bullets[i].y -= BULLET_SPEED;
+            int targetX = enemyY * TILE_SIZE + TILE_SIZE / 2;
+            int targetY = enemyX * TILE_SIZE + TILE_SIZE / 2;
+            int dx = targetX - bullets[i].x;
+            int dy = targetY - bullets[i].y;
+            float length = sqrt(dx * dx + dy * dy);
 
-            if (abs(bullets[i].x - (enemyY * TILE_SIZE + TILE_SIZE / 2)) < BULLET_RADIUS
-                && abs (bullets[i].y - (enemyX * TILE_SIZE + TILE_SIZE / 2)) < BULLET_RADIUS) {
-               bullets[i].active = false;
-                GameOver = true;
+            if (length > 0) {
+                bullets[i].x += (dx / length) * BULLET_SPEED;
+                bullets[i].y += (dy / length) * BULLET_SPEED;
             }
+
+            if (fabs(bullets[i].x - targetX) < BULLET_RADIUS &&
+                fabs(bullets[i].y - targetY) < BULLET_RADIUS) {
+                bullets[i].active = false;
+                GameOver = true;
+                GameCleared = true;
+                }
         }
     }
 }
+

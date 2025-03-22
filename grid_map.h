@@ -24,6 +24,7 @@ int distanceMap[GRID_SIZE][GRID_SIZE];
 int enemyX = 0, enemyY = 0;
 
 bool GameOver = false;
+bool GameCleared = false;
 
 void bfs(int goalX, int goalY) {
     int queue[GRID_SIZE * GRID_SIZE][2];

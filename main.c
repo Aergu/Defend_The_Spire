@@ -18,6 +18,7 @@ int main() {
 
     int gameFPS = 7;
     int menuFPS = 60;
+    int towerSpawnFPS = 60;
 
     GameState state = MENU;
 
@@ -30,8 +31,8 @@ int main() {
                 SetTargetFPS(menuFPS);
                 BeginDrawing();
                 ClearBackground(RAYWHITE);
-                DrawText("Defend The Spire", SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 - 50, 40, BLACK);
-                DrawText("Press SPACE to start game", SCREEN_WIDTH / 2 - 120, SCREEN_HEIGHT / 2, 20, BLACK);
+                DrawText("Defend The Spire", SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 75, 40, BLACK);
+                DrawText("Press SPACE to start game", SCREEN_WIDTH / 2 - 125, SCREEN_HEIGHT / 2, 20, BLACK);
                 DrawText("Press T to start tutorial", SCREEN_WIDTH / 2 - 120, SCREEN_HEIGHT / 2 + 50, 20, BLACK);
 
                 if (IsKeyPressed(KEY_SPACE)) {
@@ -79,21 +80,45 @@ int main() {
 
                 DrawCircle(enemyY * TILE_SIZE + TILE_SIZE / 2, enemyX * TILE_SIZE + TILE_SIZE / 2, TILE_SIZE / 3, RED);
 
-                if (GameOver) {
-                    DrawRectangle(0,0,SCREEN_WIDTH,SCREEN_HEIGHT,BLACK);
-                    DrawText("GAME OVER", SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2, 40, RED);
-                    DrawText("PRESS SPACE TO RESTART", SCREEN_WIDTH / 2 - 120, SCREEN_HEIGHT / 2 + 50, 20, GREEN);
+            if (GameOver) {
+                DrawRectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, BLACK);
 
-                    if (IsKeyPressed(KEY_SPACE)) {
-                        enemyX = 0;
-                        enemyY = 0;
-                        GameOver = false;
-                        bfs(GOAL_X, GOAL_Y);
+                if (GameCleared) {
+                    DrawText("GAME CLEARED!", SCREEN_WIDTH / 2 - 140, SCREEN_HEIGHT / 2 - 20, 40, GREEN);
+                } else {
+                    DrawText("GAME OVER", SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 - 20, 40, RED);
+
+                    for (int i = 0; i < 10; i++) {
+                        bullets[i].active = false;
                     }
                 }
+                DrawText("PRESS SPACE TO RESTART", SCREEN_WIDTH / 2 - 120, SCREEN_HEIGHT / 2 + 50, 20, WHITE);
+
+
+                if (IsKeyPressed(KEY_SPACE)) {
+                    for (int i = 0; i < GRID_SIZE; i++) {
+                        for (int j = 0; j < GRID_SIZE; j++) {
+                            grid[i][j] = 0;
+                        }
+                    }
+
+                    enemyX = 0;
+                    enemyY = 0;
+                    GameOver = false;
+                    GameCleared = false;
+
+                    for (int i = 0; i < 10; i++) {
+                        bullets[i].active = false;
+                    }
+
+                    bfs(GOAL_X, GOAL_Y);
+                }
+            }
+
 
                 if (!GameOver) {
                     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                        SetTargetFPS(towerSpawnFPS);
                         int towerX = GetMouseY() / TILE_SIZE;
                         int towerY = GetMouseX() / TILE_SIZE;
 
@@ -212,14 +237,41 @@ int main() {
                 textX = SCREEN_WIDTH / 2 - textWidth / 2;
                 textY = SCREEN_HEIGHT / 2 + 50;
 
-                DrawText("Press SPACE to start the game", textX, textY, 20, BLACK);
+                DrawText("Press SPACE to continue", textX, textY, 20, BLACK);
 
                 if (IsKeyPressed(KEY_SPACE)) {
-                    state = GAME;
+                    tutorialStep++;
                 }
 
                 EndDrawing();
                 break;
+
+            case 4:
+                BeginDrawing();
+            ClearBackground(RAYWHITE);
+
+            textWidth = MeasureText("You win when the enemy is defeated", 30);
+            textHeight = 30;
+
+            textX = SCREEN_WIDTH / 2 - textWidth / 2;
+            textY = SCREEN_HEIGHT / 2 - textHeight / 2;
+
+            DrawText("You win when the enemy is defeated", textX, textY, 30, BLACK);
+
+            textWidth = MeasureText("Press SPACE to start the game", 20);
+            textHeight = 20;
+
+            textX = SCREEN_WIDTH / 2 - textWidth / 2;
+            textY = SCREEN_HEIGHT / 2 + 50;
+
+            DrawText("Press SPACE to start the game", textX, textY, 20, BLACK);
+
+            if (IsKeyPressed(KEY_SPACE)) {
+                state = GAME;
+            }
+
+            EndDrawing();
+            break;
         }
     }
 

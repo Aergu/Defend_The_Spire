@@ -6,7 +6,7 @@
 
 #define BULLET_SPEED 40
 #define BULLET_RADIUS 5
-#define TOWER_RANGE 2
+#define TOWER_RANGE 4
 
 typedef struct {
     int x, y;

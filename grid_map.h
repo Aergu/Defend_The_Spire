@@ -16,18 +16,7 @@ int dx[4] = {1, 0, -1, 0};
 int dy[4] = {0, 1, 0, -1};
 
 
-int grid[GRID_SIZE][GRID_SIZE] = {
-    {0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
-    {0, 1, 1, 0, 1, 0, 1, 1, 1, 0},
-    {0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
-    {1, 1, 0, 1, 1, 0, 1, 0, 1, 0},
-    {0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
-    {0, 1, 0, 1, 0, 1, 1, 0, 1, 0},
-    {0, 1, 0, 0, 0, 0, 1, 0, 0, 0},
-    {0, 1, 1, 1, 1, 0, 1, 1, 1, 0},
-    {0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
-    {0, 1, 1, 0, 1, 1, 1, 1, 1, 0}
-};
+int grid[GRID_SIZE][GRID_SIZE];
 
 
 int distanceMap[GRID_SIZE][GRID_SIZE];
@@ -71,8 +60,11 @@ void bfs(int goalX, int goalY) {
     }
 }
 
+
 void moveEnemy() {
         if (GameOver) return;
+
+
 
     int bestX = enemyX, bestY = enemyY;
     int minDist = distanceMap[enemyX][enemyY];
